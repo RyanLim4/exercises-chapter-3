@@ -44,9 +44,21 @@ class Polynomial:
         elif isinstance(other, Number):
             return Polynomial((self.coefficients[0] + other,)
                               + self.coefficients[1:])
-
+            
         else:
             return NotImplemented
 
     def __radd__(self, other):
         return self + other
+
+    def __sub__(self, other):
+        if isinstance(other, Polynomial):
+            temp = Polynomial(other.coefficient)
+            temp.coefficients = (-other.coefficients[i] for i in other.coefficients)
+        elif isinstance(other, Number):
+            temp = -other
+        
+        return self + temp
+    
+    def __rsub__(self, other):
+        return self - other
