@@ -64,6 +64,29 @@ class Polynomial:
         return self + temp
     
     def __rsub__(self, other):
-        length = self.degree() + 1
-        zero_poly = Polynomial(tuple([0 for i in range(length)]))
-        return zero_poly - self + other
+        return self - self - self + other
+    
+    def __mul__(self, other):
+        if isinstance(other, Number):
+            temp = Polynomial(tuple([other * val for val in self.coefficients]))
+            return temp
+        elif isinstance(other, Polynomial):
+            # new degree is sum of degrees
+            deg_self = self.degree()
+            deg_other = other.degree()
+            deg = deg_self + deg_other
+            # append 0s to tuples till they have deg + 1 terms
+            a = self.coefficients + (0,)*(deg - deg_self+1)
+            b = other.coefficients + (0,)*(deg - deg_other+1)
+            # coefficient is the cauchy product
+            coeff = [0 for i in range(deg+1)]
+            for n in range(deg+1):
+                for i in range(n+1):
+                    coeff[n] += a[i]*b[n-i]
+            coeff = tuple(coeff)
+            return Polynomial(coeff)
+        else:
+            return NotImplemented
+    
+    def __rmul__(self, other):
+        return self * other
