@@ -103,3 +103,14 @@ class Polynomial:
     def __call__(self, val):
         if isinstance(val, Number):
             return sum([coeff * (val**i) for i, coeff in enumerate(self.coefficients)])
+        
+    def dx(self):
+        if self.degree() < 1:
+            return Polynomial((0,))
+        else:
+            coeff = tuple(i * val for i, val in enumerate(self.coefficients[1:], 1))
+            return Polynomial(coeff)
+
+    
+def derivative(f):
+    return f.dx()
