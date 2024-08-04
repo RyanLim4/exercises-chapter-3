@@ -53,7 +53,7 @@ class Polynomial:
 
     def __sub__(self, other):
         if isinstance(other, Polynomial):
-            temp = Polynomial(other.coefficient)
+            temp = Polynomial(other.coefficients)
             temp.coefficients = (-other.coefficients[i] for i in other.coefficients)
         elif isinstance(other, Number):
             temp = -other
