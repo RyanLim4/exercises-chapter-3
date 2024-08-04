@@ -52,13 +52,18 @@ class Polynomial:
         return self + other
 
     def __sub__(self, other):
+        
         if isinstance(other, Polynomial):
-            coeff = [-other.coefficients[i] for i in other.coefficients]
+            coeff = tuple(-val for val in other.coefficients)
             temp = Polynomial(coeff)
         elif isinstance(other, Number):
             temp = -other
-    
+        else:
+            return NotImplemented
+            
         return self + temp
     
     def __rsub__(self, other):
-        return self - other
+        length = self.degree() + 1
+        zero_poly = Polynomial(tuple([0 for i in range(length)]))
+        return zero_poly - self + other
