@@ -1,4 +1,4 @@
-from numbers import Number
+from numbers import Number, Integral
 
 
 class Polynomial:
@@ -90,3 +90,16 @@ class Polynomial:
     
     def __rmul__(self, other):
         return self * other
+    
+    def __pow__(self, n):
+        new_poly = Polynomial(self.coefficients)
+        if isinstance(n, Integral):
+            if n >0:
+                for i in range(n-1):
+                    new_poly *= self
+                return new_poly
+        return NotImplemented
+    
+    def __call__(self, val):
+        if isinstance(val, Number):
+            return sum([coeff * (val**i) for i, coeff in enumerate(self.coefficients)])
